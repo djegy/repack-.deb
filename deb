@@ -1,0 +1,8 @@
+You can change the dependencies of a deb package like this:
+
+Unpack deb: ar x golden-linux.deb (will create i.e. three files: debian-binary control.tar.gz data.tar.gz)
+Unpack control archive: tar xzf control.tar.gz (will create: postinst postrm preinst prerm md5sums control)
+Fix dependencies in control (use a text editor)
+Repack control.tar.gz: tar --ignore-failed-read -cvzf control.tar.gz {post,pre}{inst,rm} md5sums control
+Repack deb: ar rcs newpackage.deb debian-binary control.tar.gz data.tar.gz (order important! See [Note] )
+[Note]: dpkg wouldn't be able to read the metadata of a package quickly if it had to search for where the data section ended!
